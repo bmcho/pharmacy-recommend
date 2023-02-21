@@ -11,9 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URL;
-import java.util.Map;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -23,17 +20,20 @@ public class KakaoAddressSearchService {
     private final kakaoUriBuilderService kakaoUriBuilderService;
 
     @Value("${kakao.rest.api.key}")
-    private String kakoRestApiKey;
+    private String kakaoRestApiKey;
 
     public KakaoApiResponseDto requestAddressSearch(String address) {
 
         if(ObjectUtils.isEmpty(address)) return null;
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, "KakaoAK " + kakaoRestApiKey);
+        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
 
         // kakao api 호출
         return restTemplate.exchange(
                 kakaoUriBuilderService.buildUriByAddressSearch(address),
                 HttpMethod.GET,
-                (HttpEntity<?>) Map.of(HttpHeaders.AUTHORIZATION, "KakaoAK " + kakoRestApiKey),
+                httpEntity,
                 KakaoApiResponseDto.class).getBody();
     }
 
