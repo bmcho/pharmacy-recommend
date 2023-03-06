@@ -19,10 +19,11 @@ services: # 이 항목 밑에 실행하려는 컨테이너들을 정의
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     environment:
-      - MARIADB_DATABASE=pharmacy-recommendation
-      - MARIADB_ROOT_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - MYSQL_DATABASE=pharmacy-recommendation
+      - MYSQL_ROOT_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
     volumes:
       - ./data:/var/lib/mysql
+      - ./database/init:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"      # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
 
