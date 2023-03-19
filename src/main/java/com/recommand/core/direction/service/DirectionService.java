@@ -2,12 +2,16 @@ package com.recommand.core.direction.service;
 
 import com.recommand.api.dto.DocumentDto;
 import com.recommand.core.direction.entity.Direction;
+import com.recommand.core.direction.repository.DirectionRepository;
 import com.recommand.core.pharmacy.dto.PharmacyDto;
 import com.recommand.core.pharmacy.service.PharmacySearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +25,13 @@ public class DirectionService {
     private static final double RADIUS_KM = 10.0; // 반경 10km 이내
 
     private final PharmacySearchService pharmacySearchService;
+    private final DirectionRepository directionRepository;
+
+    @Transactional
+    public List<Direction> saveAll(List<Direction> directions) {
+        if (CollectionUtils.isEmpty(directions)) return Collections.emptyList();
+        return directionRepository.saveAll(directions);
+    }
 
     public List<Direction> buildDirectionList(DocumentDto documentDto) {
 
