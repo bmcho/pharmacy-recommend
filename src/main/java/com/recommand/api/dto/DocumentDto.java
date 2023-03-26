@@ -22,6 +22,6 @@ public class DocumentDto {
     private double longitude;
     @JsonProperty("y")
     private double latitude;
-    private String distance;
+    private double distance;
 
 }

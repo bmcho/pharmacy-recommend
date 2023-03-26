@@ -1,6 +1,7 @@
 package com.recommand.core.direction.service;
 
 import com.recommand.api.dto.DocumentDto;
+import com.recommand.api.service.KakaoCategorySearchService;
 import com.recommand.core.direction.entity.Direction;
 import com.recommand.core.direction.repository.DirectionRepository;
 import com.recommand.core.pharmacy.dto.PharmacyDto;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -26,6 +28,7 @@ public class DirectionService {
 
     private final PharmacySearchService pharmacySearchService;
     private final DirectionRepository directionRepository;
+    private final KakaoCategorySearchService kakaoCategorySearchService;
 
     @Transactional
     public List<Direction> saveAll(List<Direction> directions) {
@@ -53,6 +56,25 @@ public class DirectionService {
                 .collect(Collectors.toList());
     }
 
+    public List<Direction> buildDirectionListByCategoryLApi(DocumentDto documentDto) {
+        if (ObjectUtils.isEmpty(documentDto)) return Collections.emptyList();
+
+        return kakaoCategorySearchService.requestCategorySearch(documentDto.getLatitude(), documentDto.getLongitude(), RADIUS_KM)
+                .getDocumentList()
+                .stream().map(x ->
+                        Direction.builder()
+                                .inputAddress(documentDto.getAddressName())
+                                .inputLatitude(documentDto.getLatitude())
+                                .inputLongitude(documentDto.getLongitude())
+                                .targetPharmacyName(x.getPlaceName())
+                                .targetAddress(x.getAddressName())
+                                .targetLatitude(x.getLatitude())
+                                .targetLongitude(x.getLongitude())
+                                .distance(x.getDistance() * 0.001)
+                                .build())
+                .limit(MAX_SEARCH_COUNT)
+                .collect(Collectors.toList());
+    }
 
     // Haversine formula
     private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
