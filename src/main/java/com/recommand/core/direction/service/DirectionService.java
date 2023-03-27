@@ -4,7 +4,6 @@ import com.recommand.api.dto.DocumentDto;
 import com.recommand.api.service.KakaoCategorySearchService;
 import com.recommand.core.direction.entity.Direction;
 import com.recommand.core.direction.repository.DirectionRepository;
-import com.recommand.core.pharmacy.dto.PharmacyDto;
 import com.recommand.core.pharmacy.service.PharmacySearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +55,7 @@ public class DirectionService {
                 .collect(Collectors.toList());
     }
 
-    public List<Direction> buildDirectionListByCategoryLApi(DocumentDto documentDto) {
+    public List<Direction> buildDirectionListByCategoryApi(DocumentDto documentDto) {
         if (ObjectUtils.isEmpty(documentDto)) return Collections.emptyList();
 
         return kakaoCategorySearchService.requestCategorySearch(documentDto.getLatitude(), documentDto.getLongitude(), RADIUS_KM)
