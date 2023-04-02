@@ -28,11 +28,17 @@ public class DirectionService {
     private final PharmacySearchService pharmacySearchService;
     private final DirectionRepository directionRepository;
     private final KakaoCategorySearchService kakaoCategorySearchService;
+    private final Base62Service base62Service;
 
     @Transactional
     public List<Direction> saveAll(List<Direction> directions) {
         if (CollectionUtils.isEmpty(directions)) return Collections.emptyList();
         return directionRepository.saveAll(directions);
+    }
+
+    public Direction findById(String encodingId) {
+        long decodingId = base62Service.decodingDirectionId(encodingId);
+        return directionRepository.findById(decodingId).orElse(null);
     }
 
     public List<Direction> buildDirectionList(DocumentDto documentDto) {
