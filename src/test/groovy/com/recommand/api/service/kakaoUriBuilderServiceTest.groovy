@@ -6,10 +6,10 @@ import java.nio.charset.StandardCharsets
 
 class kakaoUriBuilderServiceTest extends Specification {
 
-    private kakaoUriBuilderService kakaoUriBuilderService
+    private KakaoUriBuilderService kakaoUriBuilderService
 
     def setup() {
-        kakaoUriBuilderService = new kakaoUriBuilderService()
+        kakaoUriBuilderService = new KakaoUriBuilderService()
     }
 
     def "buildUriByAddressSearch"() {

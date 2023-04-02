@@ -8,7 +8,7 @@ import java.net.URI;
 
 @Slf4j
 @Service
-public class kakaoUriBuilderService {
+public class KakaoUriBuilderService {
 
     private static final String KAKAO_LOCAL_SEARCH_ADDRESS_URL = "https://dapi.kakao.com/v2/local/search/address.json";
     private static final String KAKAO_LOCAL_CATEGORY_SEARCH_URL = "https://dapi.kakao.com/v2/local/search/category.json";

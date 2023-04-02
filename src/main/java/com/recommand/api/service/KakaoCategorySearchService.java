@@ -1,10 +1,8 @@
 package com.recommand.api.service;
 
-import ch.qos.logback.core.util.StringCollectionUtil;
 import com.recommand.api.dto.KakaoApiResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -22,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 public class KakaoCategorySearchService {
 
     private final RestTemplate restTemplate;
-    private final kakaoUriBuilderService kakaoUriBuilderService;
+    private final KakaoUriBuilderService kakaoUriBuilderService;
     private static final String PHARMACY_CATEGORY = "PM9";
     @Value("${kakao.rest.api.key}")
     private String kakaoRestApiKey;

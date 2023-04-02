@@ -18,9 +18,10 @@ class KakaoAddressSearchServiceRetryTest extends AbstractIntegrationContainerBas
     private KakaoAddressSearchService kakaoAddressSearchService
 
     @SpringBean
-    private kakaoUriBuilderService kakaoUriBuilderService = Mock()
+    private KakaoUriBuilderService kakaoUriBuilderService = Mock()
 
-    private MockWebServer mockWebServer;
+    private MockWebServer mockWebServer
+
     private ObjectMapper mapper = new ObjectMapper()
 
     private String inputAddress = "서울 성북구 종암로 10길"
@@ -44,6 +45,8 @@ class KakaoAddressSearchServiceRetryTest extends AbstractIntegrationContainerBas
                 .build()
         def expectedResponse = new KakaoApiResponseDto(metaDto, Arrays.asList(documentDto))
         def uri = mockWebServer.url("/").uri()
+
+        println(mapper.writeValueAsString(expectedResponse))
 
         when:
         mockWebServer.enqueue(new MockResponse().setResponseCode(504))

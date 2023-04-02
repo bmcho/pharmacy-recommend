@@ -20,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 public class KakaoAddressSearchService {
 
     private final RestTemplate restTemplate;
-    private final kakaoUriBuilderService kakaoUriBuilderService;
+    private final KakaoUriBuilderService kakaoUriBuilderService;
 
     @Value("${kakao.rest.api.key}")
     private String kakaoRestApiKey;
