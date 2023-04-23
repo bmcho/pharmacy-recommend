@@ -1,5 +1,6 @@
 package com.recommand.core.pharmacy.service;
 
+import com.recommand.core.pharmacy.cache.PharmacyRedisTemplateService;
 import com.recommand.core.pharmacy.dto.PharmacyDto;
 import com.recommand.core.pharmacy.entity.Pharmacy;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,13 @@ import java.util.stream.Collectors;
 public class PharmacySearchService {
 
     private final PharmacyRepositoryService pharmacyRepositoryService;
+    private final PharmacyRedisTemplateService pharmacyRedisTemplateService;
 
     public List<PharmacyDto> searchPharmacyDtoList() {
+
+        List<PharmacyDto> pharmacyDtoList = pharmacyRedisTemplateService.findAll();
+        if(!pharmacyDtoList.isEmpty()) return pharmacyDtoList;
+
         return pharmacyRepositoryService.findAll().stream().map(this::convertToPharmacyDto).collect(Collectors.toList());
     }
     private PharmacyDto convertToPharmacyDto(Pharmacy pharmacy) {
